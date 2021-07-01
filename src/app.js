@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const userEmail = await GoogleAuthService.getUserEmail(req.body?.token);
+  const userEmail = await GoogleAuthService.getUserEmail(req.body.token);
   if (userEmail) {
     const token = AuthService.generateAccessToken(userEmail);
     res.send(token);
