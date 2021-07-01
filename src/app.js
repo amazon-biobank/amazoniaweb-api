@@ -37,8 +37,14 @@ app.post('/login', async (req, res) => {
 
 app.get('/get-credentials', authenticateTokenMiddleware, async (req, res) => {
   const user = req.user;
-  const credentials = await RegisterService.registerUser(user['user-email']);
-  res.send(credentials);
+  try {
+    const credentials = await RegisterService.registerUser(user['user-email']);
+    res.set({"Content-Disposition":"attachment; filename=\"credentials.json\""});
+    res.setHeader('Content-type', "text/csv");
+    res.send(credentials);
+  } catch (error) {
+    res.status(500).send('An error ocurred') 
+  }
 });
 
 app.listen(port, () => {
