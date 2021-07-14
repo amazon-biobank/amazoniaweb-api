@@ -9,6 +9,8 @@ const AuthService = require('./services/auth-service');
 const authenticateTokenMiddleware = require('./middleware/authentication-middleware');
 const GoogleAuthService = require('./services/google-auth-service');
 const RegisterService = require('./services/hyperledger-service');
+const EncryptionService = require('./services/cli-encryption-service');
+
 
 
 dotenv.config();
@@ -35,13 +37,27 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/get-credentials', authenticateTokenMiddleware, async (req, res) => {
+app.get('/credentials', authenticateTokenMiddleware, async (req, res) => {
   const user = req.user;
   try {
     const credentials = await RegisterService.registerUser(user['user-email']);
     res.set({"Content-Disposition":"attachment; filename=\"credentials.json\""});
     res.setHeader('Content-type', "text/csv");
     res.send(credentials);
+  } catch (error) {
+    res.status(500).send('An error ocurred') 
+  }
+});
+
+app.post('/encrypted-credentials', authenticateTokenMiddleware, async (req, res) => {
+  const user = req.user;
+  const password = req.body.password;
+  try {
+    const credentials = await RegisterService.registerUser(user['user-email']);
+    const encryptedCredentials = await EncryptionService.lyra2Encrypt(password, credentials);
+    res.set({"Content-Disposition":"attachment; filename=\"credentials.json\""});
+    res.setHeader('Content-type', "text/csv");
+    res.send(encryptedCredentials);
   } catch (error) {
     res.status(500).send('An error ocurred') 
   }
