@@ -53,7 +53,7 @@ app.post(
     const credentials = await RegisterService.registerUser(user["user-email"]);
     const encryptedCredentials = await EncryptionService.lyra2Encrypt(
       password,
-      credentials
+      JSON.stringify(credentials)
     );
     res.set({
       "Content-Disposition": 'attachment; filename="credentials.json"',

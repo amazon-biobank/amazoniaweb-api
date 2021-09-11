@@ -5,8 +5,9 @@ const exec = util.promisify(require("child_process").exec);
 
 async function lyra2Encrypt(password, text) {
   try {
+    const execString = `lyra2-file-encryptor encrypt '${password}' '${text}'`;
     const { stdout, stderr } = await exec(
-      `lyra2-file-encryptor encrypt "${password}" "${text}"`
+      execString
     );
     if (stderr) {
       throw new Error(stderr);
