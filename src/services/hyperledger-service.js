@@ -20,7 +20,6 @@ async function registerUser(email) {
     }
     throwHttpError(response);
   } catch (error) {
-    console.log(error);
     throw new HTTPError();
   }
 }

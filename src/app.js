@@ -48,18 +48,23 @@ app.post(
   "/encrypted-credentials",
   authenticateTokenMiddleware,
   async (req, res) => {
-    const user = req.user;
-    const password = req.body.password;
-    const credentials = await RegisterService.registerUser(user["user-email"]);
-    const encryptedCredentials = await EncryptionService.lyra2Encrypt(
-      password,
-      JSON.stringify(credentials)
-    );
-    res.set({
-      "Content-Disposition": 'attachment; filename="credentials.json"',
-    });
-    res.setHeader("Content-type", "text/csv");
-    res.send(encryptedCredentials);
+    try{
+      const user = req.user;
+      const password = req.body.password;
+      const credentials = await RegisterService.registerUser(user["user-email"]);
+      const encryptedCredentials = await EncryptionService.lyra2Encrypt(
+        password,
+        JSON.stringify(credentials)
+      );
+      res.set({
+        "Content-Disposition": 'attachment; filename="credentials.json"',
+      });
+      res.setHeader("Content-type", "text/csv");
+      res.send(encryptedCredentials);
+    }
+    catch(e) {
+      console.log(e.message)
+    }
   }
 );
 
