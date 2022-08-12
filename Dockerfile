@@ -1,11 +1,8 @@
-FROM ubuntu:latest
-USER root
+FROM node:14.17.0
 WORKDIR /app
-RUN apt-get update
-RUN apt-get -y install curl gnupg
-RUN curl -sL https://deb.nodesource.com/setup_14.x  | bash -
-RUN apt-get -y install nodejs
-COPY package*.json ./
-RUN npm install
-COPY . .
+COPY binding.gyp ./
+COPY src/ ./src/
+COPY lyra2/ ./lyra2/
+COPY package.json ./
+RUN npm install --unsafe-perm
 CMD ["npm", "run", "start"]

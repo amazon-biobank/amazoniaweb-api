@@ -7,9 +7,16 @@ const algorithm = 'aes-256-cfb';
 const KEY_SIZE = 32;
 const SALT_LENGTH = 16;
 
+const ArrayBufferToBuffer = (arrayBuffer) => {
+    const buffer = Buffer.from(arrayBuffer)
+    
+    return buffer;
+}
+
 const splitKeyIv = (keyHash) => {
-    const key = keyHash.slice(0, KEY_SIZE);
-    const iv = keyHash.slice(KEY_SIZE, KEY_SIZE  + KEY_SIZE / 2);
+    const bufferKey = ArrayBufferToBuffer(keyHash);
+    const key = bufferKey.slice(0, KEY_SIZE);
+    const iv = bufferKey.slice(KEY_SIZE, KEY_SIZE  + KEY_SIZE / 2);
     return [key, iv];
 }
 

@@ -7,6 +7,9 @@
     "start": "node src/app.js",
     "test": "jest"
   },
+  "config": {
+    "unsafe-perm":true
+  },
   "author": "amazon-biobank",
   "license": "ISC",
   "dependencies": {
