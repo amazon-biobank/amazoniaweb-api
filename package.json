@@ -5,19 +5,26 @@
   "main": "app.js",
   "scripts": {
     "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "amazon-biobank",
   "license": "ISC",
   "dependencies": {
+    "bindings": "~1.2.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "google-auth-library": "^7.0.4",
     "jsonwebtoken": "^8.5.1",
-    "node-fetch": "^2.6.1"
+    "node-addon-api": "^5.0.0",
+    "node-fetch": "^2.6.1",
+    "node-gyp": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3"
   }
 }
