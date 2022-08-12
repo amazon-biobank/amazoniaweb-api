@@ -11,7 +11,6 @@ const authenticateTokenMiddleware = require("./middleware/authentication-middlew
 const GoogleAuthService = require("./services/google-auth-service");
 const RegisterService = require("./services/hyperledger-service");
 const EncryptionService = require("./services/cli-encryption-service");
-const { HTTPError } = require("./errors/HTTPError");
 const httpErrorHandler = require("./middleware/http-error-handler-middleware");
 
 dotenv.config();

@@ -1,18 +1,15 @@
-const util = require("util");
 const { HTTPError } = require("../errors/HTTPError");
 const { HttpStatus } = require("../errors/HttpStatus");
-const exec = util.promisify(require("child_process").exec);
+const { EncryptedCertificate } = require("../middleware/EncryptedCertificate");
+const { encrypt, generateKeyAndSalt } = require("../middleware/encryption");
 
-async function lyra2Encrypt(password, text) {
+
+function lyra2Encrypt(password, text) {
   try {
-    const execString = `lyra2-file-encryptor encrypt '${password}' '${text}'`
-    const { stdout, stderr } = await exec(
-      execString
-    );
-    if (stderr) {
-      throw new Error(stderr);
-    }
-    return stdout;
+    const [keyHash, salt] = generateKeyAndSalt(password);
+    const encryptedText = encrypt(keyHash, text);
+    const certificate = new EncryptedCertificate(encryptedText, salt);
+    return certificate.getObject();
   } catch (error) {
     console.log(error);
     throw new HTTPError(HttpStatus.INTERNAL_SERVER, "Failed to encrypt");
