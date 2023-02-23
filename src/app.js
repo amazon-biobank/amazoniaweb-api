@@ -3,6 +3,10 @@ const bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 require("express-async-errors");
 
+var fs = require("fs");
+var https = require("https");
+var path = require('path');
+
 var cors = require("cors");
 
 const dotenv = require("dotenv");
@@ -67,8 +71,18 @@ app.post(
   }
 );
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+const httpsServer = https
+  .createServer(
+    {
+      key: fs.readFileSync(path.resolve(__dirname, "./ssl/keys/server.key")),
+      cert: fs.readFileSync(path.resolve(__dirname, "./ssl/keys/server.cert")),
+    },
+    app
+  )
+  .listen(port, function () {
+    console.log(
+      `Example app listening on port ${port}! Go to https://localhost:${port}`
+    );
+  });
 
 app.use(httpErrorHandler);

@@ -2,6 +2,7 @@ const { OAuth2Client } = require("google-auth-library");
 const { HTTPError } = require("../errors/HTTPError");
 
 const clientId = process.env.CLIENT_ID;
+
 const client = new OAuth2Client(clientId);
 
 async function getUserEmail(googleToken) {

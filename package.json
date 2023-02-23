@@ -8,7 +8,7 @@
     "test": "jest"
   },
   "config": {
-    "unsafe-perm":true
+    "unsafe-perm": true
   },
   "author": "amazon-biobank",
   "license": "ISC",
